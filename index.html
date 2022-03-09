@@ -5,11 +5,15 @@
     <meta charset="utf-8">
     <title>ProSet</title>
     <meta name="author" content="">
+    <!--
     <meta name="viewport" content="height=750px, width=400px, initial-scale=0.86">
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.86">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/styles-absolute.css">
+    <link rel="stylesheet" href="css/styles-relative.css">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -23,7 +27,7 @@
 </head>
 
 <body>
-    <div class="proset-game">
+    <div class="proset-game" id="proset-game">
         <div class="proset-title-line">
             <span class="proset-title">ProSet</span>
             <div class="proset-score-line">
@@ -31,15 +35,15 @@
                 <span class="proset-score" id="score-num">0</span>
             </div>
         </div>
-        <div class="proset-rows">
-                <div class="proset-row" id="proset-row-0"></div>
-                <div class="proset-row" id="proset-row-1"></div>
-                <div class="proset-row" id="proset-row-2"></div>
-                <div class="proset-buttons">
-                    <input type="button" class="proset-button" value="Reveal" onclick="revealSolution()">
-                    <input type="button" class="proset-button" value="Clear" onclick="clearSelected()">
-                    <input type="button" class="proset-button" value="Enter" onclick="enterGuess()">
-                </div>
+        <div class="proset-rows" id="proset-rows">
+            <div class="proset-row" id="proset-row-0"></div>
+            <div class="proset-row" id="proset-row-1"></div>
+            <div class="proset-row" id="proset-row-2"></div>
+            <div class="proset-buttons">
+                <input type="button" class="proset-button" value="Reveal" onclick="revealSolution()">
+                <input type="button" class="proset-button" value="Clear" onclick="clearSelected()">
+                <input type="button" class="proset-button" value="Enter" onclick="enterGuess()">
+            </div>
         </div>
-    <script src="scripts/main.js"></script>
+        <script src="scripts/main.js"></script>
 </body>

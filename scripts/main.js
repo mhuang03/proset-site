@@ -27,7 +27,7 @@ function newCard(cardid) {
     let card = document.createElement('div');
     card.className = 'proset-card';
     card.setAttribute('card-id', cardid);
-    card.addEventListener('click', function() {
+    card.addEventListener('click', function () {
         this.classList.toggle('selected');
     });
     return card;
@@ -58,7 +58,7 @@ function renderCards(cardids) {
 
             if (typeof cardid == 'undefined') {
                 card.style.visibility = 'hidden'
-            } else{
+            } else {
                 addDots(card);
             }
         }
@@ -135,8 +135,8 @@ function shuffle(array) {
 
 function createDeck() {
     let deck = [];
-    for (let i = 1; i < 2**6; i++) {
-        deck.push(i.toString(2).padStart(6,'0'));
+    for (let i = 1; i < 2 ** 6; i++) {
+        deck.push(i.toString(2).padStart(6, '0'));
     }
     shuffle(deck);
     localStorage.setItem('deck', JSON.stringify(deck));
@@ -145,7 +145,7 @@ function createDeck() {
 function populateCards() {
     let cards = [];
     let deck = JSON.parse(localStorage.getItem('deck'));
-    for (let i = 0; i < 7; i ++) {
+    for (let i = 0; i < 7; i++) {
         cards.push(deck.pop());
     }
     renderCards(cards);
@@ -192,8 +192,8 @@ function revealSolution() {
     }
 
     let solution = [];
-    for (let i = 1; i <= 2**ids.length; i++) {
-        let binString = i.toString(2).padStart(ids.length,'0');
+    for (let i = 1; i <= 2 ** ids.length; i++) {
+        let binString = i.toString(2).padStart(ids.length, '0');
         let binArr = [...binString];
         let total = 0;
         for (let j = 0; j < ids.length; j++) {
@@ -223,7 +223,7 @@ function revealSolution() {
 }
 
 function addEventListeners() {
-    document.body.addEventListener('keyup', function(event) {
+    document.body.addEventListener('keyup', function (event) {
         event.preventDefault();
         if (event.key === 'Enter') {
             enterGuess();
@@ -235,10 +235,15 @@ function addEventListeners() {
     });
 }
 
+function scaleToFit() {
+
+}
+
 function initialize() {
     addEventListeners();
     createDeck();
     populateCards();
+    scaleToFit();
 }
 
 initialize();

@@ -5,6 +5,20 @@
     src: url('fonts/cmunrm.ttf');
 }
 
+:root {
+    --one-unit: min(calc(100vw/400.0), calc(100vh/750.0), 1px);
+    --two-units: calc(2*var(--one-unit));
+    --ten-units: calc(10*var(--one-unit));
+    --fifteen-units: calc(15*var(--one-unit));
+    --twenty-units: calc(20*var(--one-unit));
+    --twenty-four-units: calc(24*var(--one-unit));
+    --twenty-five-units: calc(25*var(--one-unit));
+    --forty-units: calc(40*var(--one-unit));
+    --sixty-units: calc(60*var(--one-unit));
+    --one-hundred-units: calc(100*var(--one-unit));
+    --one-hundred-fifty-units: calc(150*var(--one-unit));
+}
+
 body {
     touch-action: manipulation;
 }
@@ -17,12 +31,12 @@ body {
 
 .proset-title {
     font-family: 'Computer Modern';
-    font-size: 60px;
+    font-size: var(--sixty-units);
 }
 
 .proset-score {
     font-family: 'Computer Modern';
-    font-size: 24px;
+    font-size: var(--twenty-four-units);
 }
 
 .proset-game {
@@ -35,33 +49,33 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: var(--fifteen-units);
 }
 
 .proset-rows {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    border: 2px solid;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
+    gap: var(--fifteen-units);
+    border: var(--two-units) solid;
+    border-radius: var(--ten-units);
+    padding: var(--twenty-units);
+    margin-bottom: var(--twenty-units);
 }
 
 .proset-row {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 15px;
+    gap: var(--fifteen-units);
 }
 
 .proset-card {
-    border-radius: 10px;
-    border: 2px solid black;
+    border-radius: var(--ten-units);
+    border: var(--two-units) solid black;
     background-color: white;
-    height: 150px;
-    width: 100px;
+    height: var(--one-hundred-fifty-units);
+    width: var(--one-hundred-units);
 
     transition: all .2s ease-in-out;
 }
@@ -72,7 +86,7 @@ body {
 
 .proset-card.selected {
     background-color: black;
-    border: 2px solid gray;
+    border: var(--two-units) solid gray;
 }
 
 .proset-dots {
@@ -88,18 +102,18 @@ body {
 
 .proset-dot {
     border-radius: 50%;
-    border: 1px solid;
-    height: 25px;
-    width: 25px;
-    margin: 10px;
+    border: var(--one-unit) solid;
+    height: var(--twenty-five-units);
+    width: var(--twenty-five-units);
+    margin: var(--ten-units);
 }
 .proset-card.selected .proset-dots .proset-dot {
-    border: 1px solid white;
+    border: var(--one-unit) solid white;
 }
 
 .proset-empty-dot {
-    width: 100px;
-    height: 0px;
+    width: var(--one-hundred-units);
+    height: 0;
 }
 
 .proset-buttons {
@@ -110,14 +124,14 @@ body {
 }
 
 .proset-button {
-    border-radius: 10px;
-    border: 2px solid;
+    border-radius: var(--ten-units);
+    border: var(--two-units) solid;
     background-color: white;
     color: black;
-    height: 40px;
-    width: 100px;
+    height: var(--forty-units);
+    width: var(--one-hundred-units);
     font-family:'Computer Modern',sans-serif;
-    font-size: 24px;
+    font-size: var(--twenty-four-units);;
     display: flex;
     justify-content: center;
 
@@ -131,16 +145,20 @@ body {
 
 .proset-button:active {
     background-color: black;
-    border: 2px solid gray;
+    border: var(--two-units) solid gray;
     color: white;
 }
 
-@media all and (min-width: 700px) {
+@media all and (min-aspect-ratio: 1/1) {
+    :root {
+        --one-unit: min(calc(100vw/650.0), calc(100vh/600.0), 1px);
+    }
+
     .proset-game {
         flex-direction: row;
     }
 
     .proset-rows {
-        margin: 20px;
+        margin: var(--ten-units);
     }
 }
