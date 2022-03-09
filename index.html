@@ -15,11 +15,18 @@
 
 <body>
     <div class="proset-game">
-        <div class="proset-rows">
-            <div class="proset-row" id="proset-row-0"></div>
-            <div class="proset-row" id="proset-row-1"></div>
-            <div class="proset-row" id="proset-row-2"></div>
+        <div class="proset-title-line">
+            <span class="proset-title">ProSet</span>
+            <div class="proset-score-line">
+                <span class="proset-score">Score: </span>
+                <span class="proset-score" id="score-num">0</span>
+            </div>
         </div>
-    </div>
+        <div class="proset-rows">
+                <div class="proset-row" id="proset-row-0"></div>
+                <div class="proset-row" id="proset-row-1"></div>
+                <div class="proset-row" id="proset-row-2"></div>
+        </div>
+        <input type="button" class="proset-enter" value="Enter" onclick="enterGuess()">
     <script src="scripts/main.js"></script>
 </body>

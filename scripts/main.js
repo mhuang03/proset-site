@@ -58,7 +58,55 @@ function renderCards(cardids) {
     }
 }
 
+function getSelectedCards() {
+    return document.querySelectorAll('.proset-card.selected')
+}
+
+function selectionIsValid() {
+    let cards = Array.from(getSelectedCards());
+    if (cards.length == 0) {
+        return false;
+    }
+
+    let ttl = 0
+    for (let i = 0; i < cards.length; i++) {
+        let binString = cards[i].getAttribute('card-id');
+        ttl ^= parseInt(binString, 2);
+    }
+
+    if (ttl == 0) {
+        return true;
+    }
+    return false;
+}
+
+function addToScore(num) {
+    let scoreNum = document.getElementById('score-num');
+    let currentScore = parseInt(scoreNum.innerText);
+    scoreNum.innerText = currentScore + num;
+}
+
+function enterGuess() {
+    if (selectionIsValid()) {
+        console.log('yay');
+        addToScore(getSelectedCards().length);
+    } else {
+        console.log('no');
+    }
+}
+
+function addEnterKeyHandler() {
+    document.body.addEventListener('keyup', function(event) {
+        event.preventDefault();
+        if (event.key === 'Enter') {
+            enterGuess();
+        }
+    });
+}
+
+addEnterKeyHandler();
+
 let cardids = ['111110', '110010', '001101', '110011', '000110', '100010', '111010'];
 let cardids2 = ['111110', '110010', '001101', '110011', '000110', '100010', '111010'];
 renderCards(cardids);
-renderCards(cardids2.reverse());
+//renderCards(cardids2.reverse());

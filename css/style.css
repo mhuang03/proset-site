@@ -1,3 +1,26 @@
+@font-face {
+    font-family: 'Computer Modern';
+    font-style: normal;
+    font-weight: normal;
+    src: url('fonts/cmunrm.ttf');
+}
+
+.proset-title-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.proset-title {
+    font-family: 'Computer Modern';
+    font-size: 60px;
+}
+
+.proset-score {
+    font-family: 'Computer Modern';
+    font-size: 24px;
+}
+
 .proset-game {
     position: absolute;
     width: 30%;
@@ -5,6 +28,11 @@
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
 .proset-rows {
@@ -12,6 +40,9 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 20px;
 }
 
 .proset-row {
@@ -59,10 +90,31 @@
     margin: 10px;
 }
 .proset-card.selected .proset-dots .proset-dot {
-    border: 1px solid gray;
+    border: 1px solid white;
 }
 
 .proset-empty-dot {
     width: 100px;
     height: 0px;
+}
+
+.proset-enter {
+    border-radius: 10px;
+    border: 2px solid;
+    height: 40px;
+    width: 100px;
+    font-family:'Computer Modern',sans-serif;
+
+    transition: all .2s ease-in-out;
+}
+
+.proset-enter:hover {
+    background-color: lightgray;
+    transition: all .1s ease-in-out;;
+}
+
+.proset-enter:active {
+    background-color: black;
+    border: 2px solid gray;
+    color: white;
 }
