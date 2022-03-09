@@ -5,6 +5,10 @@
     src: url('fonts/cmunrm.ttf');
 }
 
+body {
+    touch-action: manipulation;
+}
+
 .proset-title-line {
     display: flex;
     flex-direction: column;

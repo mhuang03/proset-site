@@ -222,7 +222,7 @@ function revealSolution() {
     }
 }
 
-function addKeyHandlers() {
+function addEventListeners() {
     document.body.addEventListener('keyup', function(event) {
         event.preventDefault();
         if (event.key === 'Enter') {
@@ -236,7 +236,7 @@ function addKeyHandlers() {
 }
 
 function initialize() {
-    addKeyHandlers();
+    addEventListeners();
     createDeck();
     populateCards();
 }
