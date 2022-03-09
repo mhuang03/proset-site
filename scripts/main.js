@@ -1,22 +1,16 @@
 function addDots(card) {
     let id = card.getAttribute('card-id');
-    let idArr = [...id]; //.reverse();
-    let horizontal = ['left', 'right'];
-    let vertical = ['top', 'middle', 'bottom'];
+    let idArr = [...id];
     let colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
 
-    for (let h = 0; h < 2; h++) {
-        for (let v = 0; v < 3; v++) {
-            let dot = document.createElement('div');
-            let index = 2*v + h;
-            dot.className = 'proset-dot ' + vertical[v] + ' ' + horizontal[h];
-            dot.style.backgroundColor = colors[index];
-            if (idArr[index] == '0') {
-                dot.style.display = 'none';
-                dot.style.visibility = 'hidden';
-            }
-            card.appendChild(dot);
+    for (let n = 0; n < 6; n++) {
+        let dot = document.createElement('div');
+        dot.className = 'proset-dot';
+        dot.style.backgroundColor = colors[n];
+        if (idArr[n] == '0') {
+            dot.style.visibility = 'hidden';
         }
+        card.appendChild(dot);
     }
 }
 
