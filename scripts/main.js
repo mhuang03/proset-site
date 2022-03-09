@@ -49,17 +49,28 @@ function renderCards(cardids) {
             let cardid = cardids.shift();
             let card = newCard(cardid);
             if (n < cards.length) {
-                row.replaceChild(card, cards[n]);
+                if (cards[n].getAttribute('card-id') != cardid) {
+                    row.replaceChild(card, cards[n]);
+                }
             } else {
                 row.appendChild(card);
             }
-            addDots(card);
+
+            if (typeof cardid == 'undefined') {
+                card.style.visibility = 'hidden'
+            } else{
+                addDots(card);
+            }
         }
     }
 }
 
+function getAllCards() {
+    return document.querySelectorAll('.proset-card');
+}
+
 function getSelectedCards() {
-    return document.querySelectorAll('.proset-card.selected')
+    return document.querySelectorAll('.proset-card.selected');
 }
 
 function selectionIsValid() {
@@ -86,32 +97,148 @@ function addToScore(num) {
     scoreNum.innerText = currentScore + num;
 }
 
-function replaceSelected() {
-    
+function checkWin() {
+    let cards = Array.from(getAllCards());
+    let ids = [];
+    for (let i = 0; i < cards.length; i++) {
+        let card = cards[i];
+        let id = card.getAttribute('card-id');
+        if (id != 'undefined') {
+            ids.push(id)
+        }
+    }
+
+    if (ids.length == 0) {
+        handleWin();
+    }
+}
+
+function handleWin() {
+    createDeck();
+    populateCards();
 }
 
 function enterGuess() {
     if (selectionIsValid()) {
-        console.log('yay');
         addToScore(getSelectedCards().length);
         replaceSelected();
-    } else {
-        console.log('no');
+        checkWin();
     }
 }
 
-function addEnterKeyHandler() {
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function createDeck() {
+    let deck = [];
+    for (let i = 1; i < 2**6; i++) {
+        deck.push(i.toString(2).padStart(6,'0'));
+    }
+    shuffle(deck);
+    localStorage.setItem('deck', JSON.stringify(deck));
+}
+
+function populateCards() {
+    let cards = [];
+    let deck = JSON.parse(localStorage.getItem('deck'));
+    for (let i = 0; i < 7; i ++) {
+        cards.push(deck.pop());
+    }
+    renderCards(cards);
+    localStorage.setItem('deck', JSON.stringify(deck));
+}
+
+function replaceSelected() {
+    let allCards = getAllCards();
+    let selectedCards = getSelectedCards();
+    let selectedIDs = [];
+    for (let i = 0; i < selectedCards.length; i++) {
+        selectedIDs.push(selectedCards[i].getAttribute('card-id'));
+    }
+
+    let cardIDs = [];
+    let deck = JSON.parse(localStorage.getItem('deck'));
+    for (let i = 0; i < allCards.length; i++) {
+        let currentID = allCards[i].getAttribute('card-id');
+        if (selectedIDs.includes(currentID)) {
+            currentID = deck.pop();
+        }
+        cardIDs.push(currentID);
+    }
+
+    renderCards(cardIDs);
+    localStorage.setItem('deck', JSON.stringify(deck));
+}
+
+function clearSelected() {
+    let selectedCards = getSelectedCards();
+    for (let i = 0; i < selectedCards.length; i++) {
+        selectedCards[i].classList.toggle('selected');
+    }
+}
+
+function revealSolution() {
+    let cards = Array.from(getAllCards());
+    let ids = [];
+    for (let i = 0; i < cards.length; i++) {
+        let id = cards[i].getAttribute('card-id');
+        if (id != 'undefined') {
+            ids.push(id);
+        }
+    }
+
+    let solution = [];
+    for (let i = 1; i <= 2**ids.length; i++) {
+        let binString = i.toString(2).padStart(ids.length,'0');
+        let binArr = [...binString];
+        let total = 0;
+        for (let j = 0; j < ids.length; j++) {
+            if (binArr[j] == '1') {
+                total ^= parseInt(ids[j], 2);
+            }
+        }
+        if (total == 0) {
+            for (let j = 0; j < ids.length; j++) {
+                if (binArr[j] == '1') {
+                    solution.push(ids[j]);
+                }
+            }
+            break;
+        }
+    }
+
+    for (let i = 0; i < cards.length; i++) {
+        let card = cards[i];
+        let id = card.getAttribute('card-id');
+        if (solution.includes(id)) {
+            card.classList.add('selected');
+        } else {
+            card.classList.remove('selected');
+        }
+    }
+}
+
+function addKeyHandlers() {
     document.body.addEventListener('keyup', function(event) {
         event.preventDefault();
         if (event.key === 'Enter') {
             enterGuess();
+        } else if (event.key === 'Escape') {
+            clearSelected();
+        } else if (event.key === 'R' || event.key === 'r') {
+            revealSolution();
         }
     });
 }
 
-addEnterKeyHandler();
+function initialize() {
+    addKeyHandlers();
+    createDeck();
+    populateCards();
+}
 
-let cardids = ['111110', '110010', '001101', '110011', '000110', '100010', '111010'];
-let cardids2 = ['111110', '110010', '001101', '110011', '000110', '100010', '111010'];
-renderCards(cardids);
-//renderCards(cardids2.reverse());
+initialize();

@@ -23,7 +23,6 @@
 
 .proset-game {
     position: absolute;
-    width: 30%;
     top: 50%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
@@ -43,6 +42,7 @@
     border: 2px solid;
     border-radius: 10px;
     padding: 20px;
+    margin-bottom: 20px;
 }
 
 .proset-row {
@@ -98,9 +98,17 @@
     height: 0px;
 }
 
-.proset-enter {
+.proset-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.proset-button {
     border-radius: 10px;
     border: 2px solid;
+    background-color: white;
     height: 40px;
     width: 100px;
     font-family:'Computer Modern',sans-serif;
@@ -109,13 +117,23 @@
     transition: all .2s ease-in-out;
 }
 
-.proset-enter:hover {
+.proset-button:hover {
     background-color: lightgray;
     transition: all .1s ease-in-out;;
 }
 
-.proset-enter:active {
+.proset-button:active {
     background-color: black;
     border: 2px solid gray;
     color: white;
+}
+
+@media all and (min-width: 700px) {
+    .proset-game {
+        flex-direction: row;
+    }
+
+    .proset-rows {
+        margin: 20px;
+    }
 }
