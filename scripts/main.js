@@ -1,4 +1,11 @@
 function addDots(card) {
+    let wrapper = document.createElement('div');
+    wrapper.className = 'proset-dots';
+
+    let empty = document.createElement('div');
+    empty.className = 'proset-empty-dot';
+    wrapper.appendChild(empty);
+
     let id = card.getAttribute('card-id');
     let idArr = [...id];
     let colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
@@ -10,14 +17,19 @@ function addDots(card) {
         if (idArr[n] == '0') {
             dot.style.visibility = 'hidden';
         }
-        card.appendChild(dot);
+        wrapper.appendChild(dot);
     }
+
+    card.appendChild(wrapper);
 }
 
 function newCard(cardid) {
     let card = document.createElement('div');
     card.className = 'proset-card';
     card.setAttribute('card-id', cardid);
+    card.addEventListener('click', function() {
+        this.classList.toggle('selected');
+    });
     return card;
 }
 
