@@ -86,10 +86,15 @@ function addToScore(num) {
     scoreNum.innerText = currentScore + num;
 }
 
+function replaceSelected() {
+    
+}
+
 function enterGuess() {
     if (selectionIsValid()) {
         console.log('yay');
         addToScore(getSelectedCards().length);
+        replaceSelected();
     } else {
         console.log('no');
     }
