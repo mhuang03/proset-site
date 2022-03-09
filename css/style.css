@@ -1,3 +1,16 @@
+.proset-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.proset-row {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
 .proset-card {
     border-radius: 10px;
     border: 2px solid black;
