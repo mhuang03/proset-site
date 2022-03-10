@@ -327,6 +327,13 @@ function revealSolution() {
     localStorage.setItem("revealed", "true");
 }
 
+function resetCards() {
+    localStorage.removeItem("deck");
+    localStorage.removeItem("currentCards");
+    localStorage.removeItem("actionAvailable");
+    location.reload();
+}
+
 function addEventListeners() {
     document.body.addEventListener("keyup", function (event) {
         event.preventDefault();
@@ -391,6 +398,19 @@ function addButtons() {
     let closeAbout = document.getElementById("about-close");
     closeAbout.addEventListener("click", function () {
         hideAboutModal();
+    });
+
+    let resetButton = document.getElementById("reset-button");
+    resetButton.addEventListener("click", function () {
+        resetCards();
+        this.classList.add("clicked");
+        setTimeout(
+            function (button) {
+                button.classList.remove("clicked");
+            },
+            200,
+            this
+        );
     });
 }
 
