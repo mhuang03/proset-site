@@ -249,10 +249,11 @@ function addButtons() {
     let funcs = [revealSolution, clearSelected, enterGuess];
 
     for (let i = 0; i < 3; i++) {
-        let button = document.createElement("input");
+        let button = document.createElement("a");
         button.className = "proset-button";
-        button.type = "button";
-        button.value = values[i];
+        let text = document.createElement('span');
+        text.innerText = values[i];
+        button.appendChild(text);
         button.addEventListener("click", function () {
             funcs[i]();
             this.classList.add("clicked");
