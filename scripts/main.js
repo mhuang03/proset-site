@@ -42,6 +42,7 @@ function newCard(cardid) {
 }
 
 function renderCards(cardids) {
+    localStorage.setItem('currentCards', JSON.stringify(cardids));
     let rows = [
         document.querySelector("#proset-row-0"),
         document.querySelector("#proset-row-1"),
@@ -64,7 +65,7 @@ function renderCards(cardids) {
                 row.appendChild(card);
             }
 
-            if (typeof cardid == "undefined") {
+            if (typeof cardid == "undefined" || cardid == 'undefined' || cardid == 'null' || cardid === null) {
                 card.style.visibility = "hidden";
             } else {
                 addDots(card);
@@ -103,6 +104,7 @@ function addToScore(num) {
     let scoreNum = document.getElementById("score-num");
     let currentScore = parseInt(scoreNum.innerText);
     scoreNum.innerText = currentScore + num;
+    localStorage.setItem('score', scoreNum.innerText);
 }
 
 function checkWin() {
@@ -111,7 +113,7 @@ function checkWin() {
     for (let i = 0; i < cards.length; i++) {
         let card = cards[i];
         let id = card.getAttribute("card-id");
-        if (id != "undefined") {
+        if (id != "undefined" && id != "null" && id !== null && typeof id != "undefined") {
             ids.push(id);
         }
     }
@@ -122,6 +124,7 @@ function checkWin() {
 }
 
 function handleWin() {
+    localStorage.removeItem('currentCards');
     createDeck();
     populateCards();
 }
@@ -135,6 +138,8 @@ function enterGuess() {
         replaceSelected();
         checkWin();
     }
+
+    localStorage.setItem('revealed', 'false');
 }
 
 function shuffle(array) {
@@ -145,15 +150,53 @@ function shuffle(array) {
 }
 
 function createDeck() {
-    let deck = [];
-    for (let i = 1; i < 2 ** 6; i++) {
-        deck.push(i.toString(2).padStart(6, "0"));
+    let deck = localStorage.getItem('deck');
+    let currentCards = localStorage.getItem('currentCards');
+    if (deck !== null) {
+        if (JSON.parse(deck).length != 0) {
+            return;
+        }
     }
-    shuffle(deck);
-    localStorage.setItem("deck", JSON.stringify(deck));
+    if (currentCards !== null) {
+        let currentCardArr = JSON.parse(currentCards);
+        let nonEmpty = [];
+        for (let i = 0; i < currentCardArr.length; i++) {
+            let thisCard = currentCardArr[i]
+            if (thisCard != "undefined" && thisCard != "null") {
+                nonEmpty.push(thisCard);
+            }
+        }
+        if (nonEmpty.length != 0) {
+            return;
+        }
+    }
+    
+    let newDeck = [];
+    for (let i = 1; i < 2 ** 6; i++) {
+        newDeck.push(i.toString(2).padStart(6, "0"));
+    }
+    shuffle(newDeck);
+    localStorage.setItem("deck", JSON.stringify(newDeck));
 }
 
 function populateCards() {
+    let currentCards = localStorage.getItem('currentCards');
+
+    if (currentCards !== null) {
+        let currentCardArr = JSON.parse(currentCards);
+        let nonEmpty = [];
+        for (let i = 0; i < currentCardArr.length; i++) {
+            let thisCard = currentCardArr[i]
+            if (thisCard != "undefined" && thisCard != "null") {
+                nonEmpty.push(thisCard);
+            }
+        }
+        if (nonEmpty.length != 0) {
+            renderCards(currentCardArr);
+            return;
+        }
+    }
+
     let cards = [];
     let deck = JSON.parse(localStorage.getItem("deck"));
     for (let i = 0; i < 7; i++) {
@@ -197,10 +240,11 @@ function revealSolution() {
     let ids = [];
     for (let i = 0; i < cards.length; i++) {
         let id = cards[i].getAttribute("card-id");
-        if (id != "undefined") {
+        if (id != "undefined" && id != "null") {
             ids.push(id);
         }
     }
+    console.log(ids);
 
     let solution = [];
     for (let i = 1; i <= 2 ** ids.length; i++) {
@@ -221,6 +265,8 @@ function revealSolution() {
             break;
         }
     }
+
+    console.log(solution);
 
     for (let i = 0; i < cards.length; i++) {
         let card = cards[i];
@@ -274,10 +320,21 @@ function addButtons() {
     }
 }
 
+function initializeScore() {
+    let storedScore = localStorage.getItem('score');
+    let scoreNum = document.getElementById('score-num');
+    if (storedScore !== null) {
+        scoreNum.innerText = storedScore;
+    } else {
+        scoreNum.innerText = 0;
+    }
+}
+
 function initialize() {
     createDeck();
     populateCards();
     addButtons();
+    initializeScore();
     addEventListeners();
 }
 
