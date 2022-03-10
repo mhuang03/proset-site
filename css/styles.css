@@ -1,26 +1,26 @@
 @font-face {
-    font-family: 'Computer Modern';
+    font-family: "Computer Modern";
     font-style: normal;
     font-weight: normal;
-    src: url('fonts/cmunrm.ttf');
+    src: url("fonts/cmunrm.ttf");
 }
 
 :root {
-    --one-unit: min(calc(100vw/400.0), calc(100vh/750.0), 1px);
-    --two-units: calc(2*var(--one-unit));
-    --ten-units: calc(10*var(--one-unit));
-    --fifteen-units: calc(15*var(--one-unit));
-    --twenty-units: calc(20*var(--one-unit));
-    --twenty-four-units: calc(24*var(--one-unit));
-    --twenty-five-units: calc(25*var(--one-unit));
-    --forty-units: calc(40*var(--one-unit));
-    --sixty-units: calc(60*var(--one-unit));
-    --one-hundred-units: calc(100*var(--one-unit));
-    --one-hundred-fifty-units: calc(150*var(--one-unit));
+    --one-unit: min(calc(100vw / 400), calc(100vh / 750), 1px);
+    --two-units: calc(2 * var(--one-unit));
+    --ten-units: calc(10 * var(--one-unit));
+    --fifteen-units: calc(15 * var(--one-unit));
+    --twenty-units: calc(20 * var(--one-unit));
+    --twenty-four-units: calc(24 * var(--one-unit));
+    --twenty-five-units: calc(25 * var(--one-unit));
+    --forty-units: calc(40 * var(--one-unit));
+    --sixty-units: calc(60 * var(--one-unit));
+    --one-hundred-units: calc(100 * var(--one-unit));
+    --one-hundred-fifty-units: calc(150 * var(--one-unit));
 }
 
 body {
-    touch-action: manipulation;
+    touch-action: none;
 }
 
 .proset-title-line {
@@ -30,12 +30,12 @@ body {
 }
 
 .proset-title {
-    font-family: 'Computer Modern';
+    font-family: "Computer Modern";
     font-size: var(--sixty-units);
 }
 
 .proset-score {
-    font-family: 'Computer Modern';
+    font-family: "Computer Modern";
     font-size: var(--twenty-four-units);
 }
 
@@ -77,11 +77,13 @@ body {
     height: var(--one-hundred-fifty-units);
     width: var(--one-hundred-units);
 
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
-.proset-card:hover {
-    transform: scale(1.1);
+@media (hover: hover) {
+    .proset-card:hover {
+        transform: scale(1.1);
+    }
 }
 
 .proset-card.selected {
@@ -130,28 +132,30 @@ body {
     color: black;
     height: var(--forty-units);
     width: var(--one-hundred-units);
-    font-family:'Computer Modern',sans-serif;
-    font-size: var(--twenty-four-units);;
+    font-family: "Computer Modern", sans-serif;
+    font-size: var(--twenty-four-units);
     display: flex;
     justify-content: center;
 
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
-.proset-button:hover {
-    background-color: lightgray;
-    transition: all .1s ease-in-out;;
+@media (hover: hover) {
+    .proset-button:hover {
+        background-color: lightgray;
+        transition: all 0.1s ease-in-out;
+    }
 }
 
-.proset-button:active {
+.proset-button.clicked {
     background-color: black;
-    border: var(--two-units) solid gray;
+    border-color: gray;
     color: white;
 }
 
 @media all and (min-aspect-ratio: 1/1) {
     :root {
-        --one-unit: min(calc(100vw/650.0), calc(100vh/600.0), 1px);
+        --one-unit: min(calc(100vw / 650), calc(100vh / 600), 1px);
     }
 
     .proset-game {

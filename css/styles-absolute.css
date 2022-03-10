@@ -135,12 +135,14 @@ body {
     color: white;
 }
 
-@media all and (min-width: 700px) {
-    .proset-game {
-        flex-direction: row;
-    }
-
-    .proset-rows {
-        margin: 10px;
+@supports not (color: var(--)) {
+    @media all and (min-width: 700px) {
+        .proset-game {
+            flex-direction: row;
+        }
+    
+        .proset-rows {
+            margin: 10px;
+        }
     }
 }

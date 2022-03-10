@@ -1,21 +1,21 @@
 function addDots(card) {
-    let wrapper = document.createElement('div');
-    wrapper.className = 'proset-dots';
+    let wrapper = document.createElement("div");
+    wrapper.className = "proset-dots";
 
-    let empty = document.createElement('div');
-    empty.className = 'proset-empty-dot';
+    let empty = document.createElement("div");
+    empty.className = "proset-empty-dot";
     wrapper.appendChild(empty);
 
-    let id = card.getAttribute('card-id');
+    let id = card.getAttribute("card-id");
     let idArr = [...id];
-    let colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
+    let colors = ["red", "orange", "yellow", "green", "blue", "purple"];
 
     for (let n = 0; n < 6; n++) {
-        let dot = document.createElement('div');
-        dot.className = 'proset-dot';
+        let dot = document.createElement("div");
+        dot.className = "proset-dot";
         dot.style.backgroundColor = colors[n];
-        if (idArr[n] == '0') {
-            dot.style.visibility = 'hidden';
+        if (idArr[n] == "0") {
+            dot.style.visibility = "hidden";
         }
         wrapper.appendChild(dot);
     }
@@ -23,21 +23,29 @@ function addDots(card) {
     card.appendChild(wrapper);
 }
 
+function handleCardClick(card, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    card.classList.toggle("selected");
+}
+
 function newCard(cardid) {
-    let card = document.createElement('div');
-    card.className = 'proset-card';
-    card.setAttribute('card-id', cardid);
-    card.addEventListener('click', function () {
-        this.classList.toggle('selected');
+    let card = document.createElement("div");
+    card.className = "proset-card";
+    card.setAttribute("card-id", cardid);
+
+    card.addEventListener("click", function (e) {
+        handleCardClick(this, e);
     });
     return card;
 }
 
 function renderCards(cardids) {
     let rows = [
-        document.querySelector('#proset-row-0'),
-        document.querySelector('#proset-row-1'),
-        document.querySelector('#proset-row-2'),
+        document.querySelector("#proset-row-0"),
+        document.querySelector("#proset-row-1"),
+        document.querySelector("#proset-row-2"),
     ];
     let counts = [2, 3, 2];
 
@@ -49,15 +57,15 @@ function renderCards(cardids) {
             let cardid = cardids.shift();
             let card = newCard(cardid);
             if (n < cards.length) {
-                if (cards[n].getAttribute('card-id') != cardid) {
+                if (cards[n].getAttribute("card-id") != cardid) {
                     row.replaceChild(card, cards[n]);
                 }
             } else {
                 row.appendChild(card);
             }
 
-            if (typeof cardid == 'undefined') {
-                card.style.visibility = 'hidden'
+            if (typeof cardid == "undefined") {
+                card.style.visibility = "hidden";
             } else {
                 addDots(card);
             }
@@ -66,11 +74,11 @@ function renderCards(cardids) {
 }
 
 function getAllCards() {
-    return document.querySelectorAll('.proset-card');
+    return document.querySelectorAll(".proset-card");
 }
 
 function getSelectedCards() {
-    return document.querySelectorAll('.proset-card.selected');
+    return document.querySelectorAll(".proset-card.selected");
 }
 
 function selectionIsValid() {
@@ -79,9 +87,9 @@ function selectionIsValid() {
         return false;
     }
 
-    let ttl = 0
+    let ttl = 0;
     for (let i = 0; i < cards.length; i++) {
-        let binString = cards[i].getAttribute('card-id');
+        let binString = cards[i].getAttribute("card-id");
         ttl ^= parseInt(binString, 2);
     }
 
@@ -92,7 +100,7 @@ function selectionIsValid() {
 }
 
 function addToScore(num) {
-    let scoreNum = document.getElementById('score-num');
+    let scoreNum = document.getElementById("score-num");
     let currentScore = parseInt(scoreNum.innerText);
     scoreNum.innerText = currentScore + num;
 }
@@ -102,9 +110,9 @@ function checkWin() {
     let ids = [];
     for (let i = 0; i < cards.length; i++) {
         let card = cards[i];
-        let id = card.getAttribute('card-id');
-        if (id != 'undefined') {
-            ids.push(id)
+        let id = card.getAttribute("card-id");
+        if (id != "undefined") {
+            ids.push(id);
         }
     }
 
@@ -136,20 +144,20 @@ function shuffle(array) {
 function createDeck() {
     let deck = [];
     for (let i = 1; i < 2 ** 6; i++) {
-        deck.push(i.toString(2).padStart(6, '0'));
+        deck.push(i.toString(2).padStart(6, "0"));
     }
     shuffle(deck);
-    localStorage.setItem('deck', JSON.stringify(deck));
+    localStorage.setItem("deck", JSON.stringify(deck));
 }
 
 function populateCards() {
     let cards = [];
-    let deck = JSON.parse(localStorage.getItem('deck'));
+    let deck = JSON.parse(localStorage.getItem("deck"));
     for (let i = 0; i < 7; i++) {
         cards.push(deck.pop());
     }
     renderCards(cards);
-    localStorage.setItem('deck', JSON.stringify(deck));
+    localStorage.setItem("deck", JSON.stringify(deck));
 }
 
 function replaceSelected() {
@@ -157,13 +165,13 @@ function replaceSelected() {
     let selectedCards = getSelectedCards();
     let selectedIDs = [];
     for (let i = 0; i < selectedCards.length; i++) {
-        selectedIDs.push(selectedCards[i].getAttribute('card-id'));
+        selectedIDs.push(selectedCards[i].getAttribute("card-id"));
     }
 
     let cardIDs = [];
-    let deck = JSON.parse(localStorage.getItem('deck'));
+    let deck = JSON.parse(localStorage.getItem("deck"));
     for (let i = 0; i < allCards.length; i++) {
-        let currentID = allCards[i].getAttribute('card-id');
+        let currentID = allCards[i].getAttribute("card-id");
         if (selectedIDs.includes(currentID)) {
             currentID = deck.pop();
         }
@@ -171,13 +179,13 @@ function replaceSelected() {
     }
 
     renderCards(cardIDs);
-    localStorage.setItem('deck', JSON.stringify(deck));
+    localStorage.setItem("deck", JSON.stringify(deck));
 }
 
 function clearSelected() {
     let selectedCards = getSelectedCards();
     for (let i = 0; i < selectedCards.length; i++) {
-        selectedCards[i].classList.toggle('selected');
+        selectedCards[i].classList.toggle("selected");
     }
 }
 
@@ -185,25 +193,25 @@ function revealSolution() {
     let cards = Array.from(getAllCards());
     let ids = [];
     for (let i = 0; i < cards.length; i++) {
-        let id = cards[i].getAttribute('card-id');
-        if (id != 'undefined') {
+        let id = cards[i].getAttribute("card-id");
+        if (id != "undefined") {
             ids.push(id);
         }
     }
 
     let solution = [];
     for (let i = 1; i <= 2 ** ids.length; i++) {
-        let binString = i.toString(2).padStart(ids.length, '0');
+        let binString = i.toString(2).padStart(ids.length, "0");
         let binArr = [...binString];
         let total = 0;
         for (let j = 0; j < ids.length; j++) {
-            if (binArr[j] == '1') {
+            if (binArr[j] == "1") {
                 total ^= parseInt(ids[j], 2);
             }
         }
         if (total == 0) {
             for (let j = 0; j < ids.length; j++) {
-                if (binArr[j] == '1') {
+                if (binArr[j] == "1") {
                     solution.push(ids[j]);
                 }
             }
@@ -213,37 +221,58 @@ function revealSolution() {
 
     for (let i = 0; i < cards.length; i++) {
         let card = cards[i];
-        let id = card.getAttribute('card-id');
+        let id = card.getAttribute("card-id");
         if (solution.includes(id)) {
-            card.classList.add('selected');
+            card.classList.add("selected");
         } else {
-            card.classList.remove('selected');
+            card.classList.remove("selected");
         }
     }
 }
 
 function addEventListeners() {
-    document.body.addEventListener('keyup', function (event) {
+    document.body.addEventListener("keyup", function (event) {
         event.preventDefault();
-        if (event.key === 'Enter') {
+        if (event.key === "Enter") {
             enterGuess();
-        } else if (event.key === 'Escape') {
+        } else if (event.key === "Escape") {
             clearSelected();
-        } else if (event.key === 'R' || event.key === 'r') {
+        } else if (event.key === "R" || event.key === "r") {
             revealSolution();
         }
     });
 }
 
-function scaleToFit() {
+function addButtons() {
+    let buttonWrapper = document.getElementById("proset-buttons");
+    let values = ["Reveal", "Clear", "Enter"];
+    let funcs = [revealSolution, clearSelected, enterGuess];
 
+    for (let i = 0; i < 3; i++) {
+        let button = document.createElement("input");
+        button.className = "proset-button";
+        button.type = "button";
+        button.value = values[i];
+        button.addEventListener("click", function () {
+            funcs[i]();
+            this.classList.add("clicked");
+            setTimeout(
+                function (button) {
+                    button.classList.remove("clicked");
+                },
+                200,
+                button
+            );
+        });
+        buttonWrapper.appendChild(button);
+    }
 }
 
 function initialize() {
-    addEventListeners();
     createDeck();
     populateCards();
-    scaleToFit();
+    addButtons();
+    addEventListeners();
 }
 
 initialize();
