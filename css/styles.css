@@ -10,6 +10,7 @@ body {
     touch-action: none;
     background-color: var(--background-primary);
     color: var(--foreground-primary);
+    font-family: 'Computer Modern';
 }
 
 .proset-title-line {
@@ -21,6 +22,19 @@ body {
 .proset-title {
     font-family: "Computer Modern";
     font-size: var(--sixty-units);
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+}
+
+@media all and (hover: hover) {
+    .proset-title:hover {
+        transform: scale(1.1);
+    }
+}
+
+.proset-title.clicked {
+    transform: scaleY(-1);
 }
 
 .proset-score {
@@ -66,10 +80,12 @@ body {
     height: var(--one-hundred-fifty-units);
     width: var(--one-hundred-units);
 
+    cursor: pointer;
+
     transition: all 0.2s ease-in-out;
 }
 
-@media (hover: hover) {
+@media all and (hover: hover) {
     .proset-card:hover {
         transform: scale(1.1);
     }
@@ -78,6 +94,15 @@ body {
 .proset-card.selected {
     background-color: var(--background-selected-primary);
     border: var(--two-units) solid var(--foreground-selected-primary);
+}
+
+.proset-card.eliminated {
+    transform: scale(0);
+}
+
+.proset-card.example {
+    transform: scale(0.65);
+    margin: calc(-1.45*var(--fifteen-units)) calc(-1.45*var(--ten-units));
 }
 
 .proset-dots {
@@ -98,6 +123,7 @@ body {
     width: var(--twenty-five-units);
     margin: var(--ten-units);
 }
+
 .proset-card.selected .proset-dots .proset-dot {
     border: var(--one-unit) solid var(--foreground-selected-secondary);
 }
@@ -128,6 +154,8 @@ body {
     justify-content: center;
     align-items: center;
 
+    cursor: pointer;
+
     transition: all 0.2s ease-in-out;
 }
 
@@ -150,6 +178,84 @@ body {
     color: var(--foreground-secondary);
 }
 
+.about-modal {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.5);
+    
+    z-index: 1;
+    transition: all 0.2s ease-in-out;
+}
+
+.about-modal.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.about-content {
+    border: var(--two-units) solid var(--foreground-primary);
+    border-radius: var(--ten-units);
+    background-color: var(--background-primary);
+    margin: auto;
+    margin-top: 12.5vh;
+    width: 75%;
+    height: 75%;
+    padding: var(--ten-units);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: auto;
+}
+
+.about-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.about-item-divider {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: var(--ten-units);
+}
+
+.about-item-divider h1 {
+    margin: var(--ten-units) 0;
+}
+
+.about-item-divider hr {
+    width: 100%;
+    color: var(--foreground-primary);
+}
+
+.about-close {
+    color: var(--foreground-primary);
+    float: right;
+    cursor: pointer;
+    font-size: var(--twenty-four-units);
+    padding: var(--five-units) var(--ten-units);
+}
+
+@media all and (hover: hover) {
+    .about-close:hover,
+    .about-close:focus {
+        color: var(--foreground-selected-primary);
+        float: right;
+    }
+}
+
 @media all and (min-aspect-ratio: 1/1) {
     :root {
         --one-unit: min(calc(100vw / 650), calc(100vh / 600), 1px);
@@ -161,5 +267,15 @@ body {
 
     .proset-rows {
         margin: var(--ten-units);
+    }
+
+    .about-item {
+        flex-direction: row;
+        align-items: baseline;
+    }
+
+    .about-item-divider {
+        width: 40%;
+        margin-bottom: 0;
     }
 }

@@ -42,13 +42,16 @@ function newCard(cardid) {
 }
 
 function renderCards(cardids) {
-    localStorage.setItem('currentCards', JSON.stringify(cardids));
+    localStorage.setItem("currentCards", JSON.stringify(cardids));
     let rows = [
         document.querySelector("#proset-row-0"),
         document.querySelector("#proset-row-1"),
         document.querySelector("#proset-row-2"),
     ];
     let counts = [2, 3, 2];
+
+
+    let changedCards = [];
 
     for (let r = 0; r < 3; r++) {
         let row = rows[r];
@@ -57,29 +60,46 @@ function renderCards(cardids) {
         for (let n = 0; n < count; n++) {
             let cardid = cardids.shift();
             let card = newCard(cardid);
+            card.classList.add('eliminated');
             if (n < cards.length) {
                 if (cards[n].getAttribute("card-id") != cardid) {
-                    row.replaceChild(card, cards[n]);
+                    cards[n].classList.add('eliminated');
+                    setTimeout(function (row, card, newCard) {
+                        row.replaceChild(card, newCard);
+                    }.bind(null, row, card, cards[n]), 200);
+                    changedCards.push(card);
                 }
             } else {
                 row.appendChild(card);
+                changedCards.push(card);
             }
 
-            if (typeof cardid == "undefined" || cardid == 'undefined' || cardid == 'null' || cardid === null) {
+            if (
+                typeof cardid == "undefined" ||
+                cardid == "undefined" ||
+                cardid == "null" ||
+                cardid === null
+            ) {
                 card.style.visibility = "hidden";
             } else {
                 addDots(card);
             }
         }
     }
+
+    setTimeout(function(cards) {
+        cards.forEach(function(card) {
+            card.classList.remove('eliminated');
+        });
+    }.bind(null, changedCards), 400);
 }
 
 function getAllCards() {
-    return document.querySelectorAll(".proset-card");
+    return document.querySelectorAll(".proset-card:not(.example)");
 }
 
 function getSelectedCards() {
-    return document.querySelectorAll(".proset-card.selected");
+    return document.querySelectorAll(".proset-card.selected:not(.example)");
 }
 
 function selectionIsValid() {
@@ -104,7 +124,7 @@ function addToScore(num) {
     let scoreNum = document.getElementById("score-num");
     let currentScore = parseInt(scoreNum.innerText);
     scoreNum.innerText = currentScore + num;
-    localStorage.setItem('score', scoreNum.innerText);
+    localStorage.setItem("score", scoreNum.innerText);
 }
 
 function checkWin() {
@@ -113,7 +133,12 @@ function checkWin() {
     for (let i = 0; i < cards.length; i++) {
         let card = cards[i];
         let id = card.getAttribute("card-id");
-        if (id != "undefined" && id != "null" && id !== null && typeof id != "undefined") {
+        if (
+            id != "undefined" &&
+            id != "null" &&
+            id !== null &&
+            typeof id != "undefined"
+        ) {
             ids.push(id);
         }
     }
@@ -124,22 +149,22 @@ function checkWin() {
 }
 
 function handleWin() {
-    localStorage.removeItem('currentCards');
+    localStorage.removeItem("currentCards");
     createDeck();
     populateCards();
 }
 
 function enterGuess() {
-    let revealed = localStorage.getItem('revealed');
+    let revealed = localStorage.getItem("revealed");
     if (selectionIsValid()) {
-        if (revealed != 'true') {
+        if (revealed != "true") {
             addToScore(getSelectedCards().length);
         }
         replaceSelected();
         checkWin();
     }
 
-    localStorage.setItem('revealed', 'false');
+    localStorage.setItem("revealed", "false");
 }
 
 function shuffle(array) {
@@ -150,8 +175,8 @@ function shuffle(array) {
 }
 
 function createDeck() {
-    let deck = localStorage.getItem('deck');
-    let currentCards = localStorage.getItem('currentCards');
+    let deck = localStorage.getItem("deck");
+    let currentCards = localStorage.getItem("currentCards");
     if (deck !== null) {
         if (JSON.parse(deck).length != 0) {
             return;
@@ -161,7 +186,7 @@ function createDeck() {
         let currentCardArr = JSON.parse(currentCards);
         let nonEmpty = [];
         for (let i = 0; i < currentCardArr.length; i++) {
-            let thisCard = currentCardArr[i]
+            let thisCard = currentCardArr[i];
             if (thisCard != "undefined" && thisCard != "null") {
                 nonEmpty.push(thisCard);
             }
@@ -170,7 +195,7 @@ function createDeck() {
             return;
         }
     }
-    
+
     let newDeck = [];
     for (let i = 1; i < 2 ** 6; i++) {
         newDeck.push(i.toString(2).padStart(6, "0"));
@@ -180,13 +205,13 @@ function createDeck() {
 }
 
 function populateCards() {
-    let currentCards = localStorage.getItem('currentCards');
+    let currentCards = localStorage.getItem("currentCards");
 
     if (currentCards !== null) {
         let currentCardArr = JSON.parse(currentCards);
         let nonEmpty = [];
         for (let i = 0; i < currentCardArr.length; i++) {
-            let thisCard = currentCardArr[i]
+            let thisCard = currentCardArr[i];
             if (thisCard != "undefined" && thisCard != "null") {
                 nonEmpty.push(thisCard);
             }
@@ -265,8 +290,6 @@ function revealSolution() {
         }
     }
 
-    console.log(solution);
-
     for (let i = 0; i < cards.length; i++) {
         let card = cards[i];
         let id = card.getAttribute("card-id");
@@ -277,7 +300,7 @@ function revealSolution() {
         }
     }
 
-    localStorage.setItem('revealed', 'true');
+    localStorage.setItem("revealed", "true");
 }
 
 function addEventListeners() {
@@ -301,7 +324,7 @@ function addButtons() {
     for (let i = 0; i < 3; i++) {
         let button = document.createElement("a");
         button.className = "proset-button";
-        let text = document.createElement('span');
+        let text = document.createElement("span");
         text.innerText = values[i];
         button.appendChild(text);
         button.addEventListener("click", function () {
@@ -317,11 +340,46 @@ function addButtons() {
         });
         buttonWrapper.appendChild(button);
     }
+
+    let title = document.getElementById("proset-title");
+    title.addEventListener("click", function () {
+        displayAboutModal();
+        this.classList.add("clicked");
+        setTimeout(
+            function (title) {
+                title.classList.remove("clicked");
+            },
+            200,
+            title
+        );
+    });
+
+    let modal = document.getElementById("about-modal");
+    document.addEventListener("click", function (modal, e) {
+        if (e.target == modal) {
+            modal.classList.remove("show");
+        }
+    }.bind(null, modal));
+
+    let closeAbout = document.getElementById("about-close");
+    closeAbout.addEventListener("click", function () {
+        hideAboutModal();
+    });
+}
+
+function displayAboutModal() {
+    let modal = document.getElementById("about-modal");
+    modal.classList.add("show");
+}
+
+function hideAboutModal() {
+    let modal = document.getElementById("about-modal");
+    modal.classList.remove("show");
 }
 
 function initializeScore() {
-    let storedScore = localStorage.getItem('score');
-    let scoreNum = document.getElementById('score-num');
+    let storedScore = localStorage.getItem("score");
+    let scoreNum = document.getElementById("score-num");
     if (storedScore !== null) {
         scoreNum.innerText = storedScore;
     } else {
