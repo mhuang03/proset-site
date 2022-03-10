@@ -397,12 +397,29 @@ function initializeScore() {
     }
 }
 
+function iosTouchListeners() {
+    var firstMove;
+
+    document.addEventListener('touchstart', function (e) {
+        firstMove = true;
+    });
+
+    document.addEventListener('touchmove', function (e) {
+        if (firstMove) {
+            e.preventDefault();
+
+            firstMove = false;
+        }
+    });
+}
+
 function initialize() {
     createDeck();
     populateCards();
     addButtons();
     initializeScore();
     addEventListeners();
+    iosTouchListeners();
 }
 
 initialize();
