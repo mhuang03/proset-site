@@ -50,7 +50,6 @@ function renderCards(cardids) {
     ];
     let counts = [2, 3, 2];
 
-
     let changedCards = [];
 
     for (let r = 0; r < 3; r++) {
@@ -91,6 +90,7 @@ function renderCards(cardids) {
         cards.forEach(function(card) {
             card.classList.remove('eliminated');
         });
+        localStorage.setItem("actionAvailable", "true");
     }.bind(null, changedCards), 400);
 }
 
@@ -155,13 +155,18 @@ function handleWin() {
 }
 
 function enterGuess() {
+    if (localStorage.getItem("actionAvailable") != "true") {
+        return;
+    }
+
     let revealed = localStorage.getItem("revealed");
     if (selectionIsValid()) {
         if (revealed != "true") {
             addToScore(getSelectedCards().length);
         }
         replaceSelected();
-        checkWin();
+        setTimeout(checkWin, 200);
+        localStorage.setItem("actionAvailable", "false");
     }
 
     localStorage.setItem("revealed", "false");
@@ -187,7 +192,7 @@ function createDeck() {
         let nonEmpty = [];
         for (let i = 0; i < currentCardArr.length; i++) {
             let thisCard = currentCardArr[i];
-            if (thisCard != "undefined" && thisCard != "null") {
+            if (thisCard != "undefined" && thisCard != "null" && thisCard !== null) {
                 nonEmpty.push(thisCard);
             }
         }
@@ -212,7 +217,7 @@ function populateCards() {
         let nonEmpty = [];
         for (let i = 0; i < currentCardArr.length; i++) {
             let thisCard = currentCardArr[i];
-            if (thisCard != "undefined" && thisCard != "null") {
+            if (thisCard != "undefined" && thisCard != "null" && thisCard !== null) {
                 nonEmpty.push(thisCard);
             }
         }
@@ -229,9 +234,11 @@ function populateCards() {
     }
     renderCards(cards);
     localStorage.setItem("deck", JSON.stringify(deck));
+    localStorage.setItem("actionAvailable", "true");
 }
 
 function replaceSelected() {
+    localStorage.setItem("actionAvailable", "false");
     let allCards = getAllCards();
     let selectedCards = getSelectedCards();
     let selectedIDs = [];
@@ -261,6 +268,9 @@ function clearSelected() {
 }
 
 function revealSolution() {
+    if (localStorage.getItem("actionAvailable") != "true") {
+        return;
+    }
     let cards = Array.from(getAllCards());
     let ids = [];
     for (let i = 0; i < cards.length; i++) {
