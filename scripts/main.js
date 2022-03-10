@@ -244,7 +244,6 @@ function revealSolution() {
             ids.push(id);
         }
     }
-    console.log(ids);
 
     let solution = [];
     for (let i = 1; i <= 2 ** ids.length; i++) {
