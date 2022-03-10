@@ -1,3 +1,7 @@
-User-agent: googlebot
+User-agent: *
 Disallow: /css/
 Disallow: /scripts/
+
+User-agent: googlebot
+Allow: /css/
+Allow: /scripts/
