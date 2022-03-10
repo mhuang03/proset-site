@@ -1,3 +1,5 @@
+const iNoBounce = require("./inobounce");
+
 function addDots(card) {
     let wrapper = document.createElement("div");
     wrapper.className = "proset-dots";
@@ -59,13 +61,16 @@ function renderCards(cardids) {
         for (let n = 0; n < count; n++) {
             let cardid = cardids.shift();
             let card = newCard(cardid);
-            card.classList.add('eliminated');
+            card.classList.add("eliminated");
             if (n < cards.length) {
                 if (cards[n].getAttribute("card-id") != cardid) {
-                    cards[n].classList.add('eliminated');
-                    setTimeout(function (row, card, newCard) {
-                        row.replaceChild(card, newCard);
-                    }.bind(null, row, card, cards[n]), 200);
+                    cards[n].classList.add("eliminated");
+                    setTimeout(
+                        function (row, card, newCard) {
+                            row.replaceChild(card, newCard);
+                        }.bind(null, row, card, cards[n]),
+                        200
+                    );
                     changedCards.push(card);
                 }
             } else {
@@ -86,12 +91,15 @@ function renderCards(cardids) {
         }
     }
 
-    setTimeout(function(cards) {
-        cards.forEach(function(card) {
-            card.classList.remove('eliminated');
-        });
-        localStorage.setItem("actionAvailable", "true");
-    }.bind(null, changedCards), 400);
+    setTimeout(
+        function (cards) {
+            cards.forEach(function (card) {
+                card.classList.remove("eliminated");
+            });
+            localStorage.setItem("actionAvailable", "true");
+        }.bind(null, changedCards),
+        400
+    );
 }
 
 function getAllCards() {
@@ -192,7 +200,11 @@ function createDeck() {
         let nonEmpty = [];
         for (let i = 0; i < currentCardArr.length; i++) {
             let thisCard = currentCardArr[i];
-            if (thisCard != "undefined" && thisCard != "null" && thisCard !== null) {
+            if (
+                thisCard != "undefined" &&
+                thisCard != "null" &&
+                thisCard !== null
+            ) {
                 nonEmpty.push(thisCard);
             }
         }
@@ -217,7 +229,11 @@ function populateCards() {
         let nonEmpty = [];
         for (let i = 0; i < currentCardArr.length; i++) {
             let thisCard = currentCardArr[i];
-            if (thisCard != "undefined" && thisCard != "null" && thisCard !== null) {
+            if (
+                thisCard != "undefined" &&
+                thisCard != "null" &&
+                thisCard !== null
+            ) {
                 nonEmpty.push(thisCard);
             }
         }
@@ -365,11 +381,14 @@ function addButtons() {
     });
 
     let modal = document.getElementById("about-modal");
-    document.addEventListener("click", function (modal, e) {
-        if (e.target == modal) {
-            modal.classList.remove("show");
-        }
-    }.bind(null, modal));
+    document.addEventListener(
+        "click",
+        function (modal, e) {
+            if (e.target == modal) {
+                modal.classList.remove("show");
+            }
+        }.bind(null, modal)
+    );
 
     let closeAbout = document.getElementById("about-close");
     closeAbout.addEventListener("click", function () {
@@ -398,7 +417,7 @@ function initializeScore() {
 }
 
 function iosTouchListeners() {
-    document.addEventListener('touchmove', function (e) {
+    document.addEventListener("touchmove", function (e) {
         e.preventDefault();
     });
 }
@@ -409,7 +428,7 @@ function initialize() {
     addButtons();
     initializeScore();
     addEventListeners();
-    //iosTouchListeners();
+    iNoBounce.enable();
 }
 
 initialize();
