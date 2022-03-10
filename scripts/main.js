@@ -127,8 +127,11 @@ function handleWin() {
 }
 
 function enterGuess() {
+    let revealed = localStorage.getItem('revealed');
     if (selectionIsValid()) {
-        addToScore(getSelectedCards().length);
+        if (revealed != 'true') {
+            addToScore(getSelectedCards().length);
+        }
         replaceSelected();
         checkWin();
     }
@@ -228,6 +231,8 @@ function revealSolution() {
             card.classList.remove("selected");
         }
     }
+
+    localStorage.setItem('revealed', 'true');
 }
 
 function addEventListeners() {
