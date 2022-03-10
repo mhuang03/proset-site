@@ -93,7 +93,7 @@ body {
 
 .proset-dot {
     border-radius: 50%;
-    border: var(--one-unit) solid var(--foreground-secondary);
+    border: var(--one-unit) solid var(--foreground-primary);
     height: var(--twenty-five-units);
     width: var(--twenty-five-units);
     margin: var(--ten-units);
@@ -140,7 +140,6 @@ body {
 @media all and (hover: hover) {
     .proset-button:hover {
         background-color: var(--background-secondary);
-        border-color: var(--foreground-selected-secondary);
         transition: all 0.1s ease-in-out;
     }
 }
@@ -148,7 +147,7 @@ body {
 .proset-button.clicked {
     background-color: var(--background-selected-primary);
     border-color: var(--foreground-selected-primary);
-    color: var(--foreground-selected-primary);
+    color: var(--foreground-secondary);
 }
 
 @media all and (min-aspect-ratio: 1/1) {

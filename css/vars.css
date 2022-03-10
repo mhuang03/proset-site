@@ -12,7 +12,7 @@
     --one-hundred-fifty-units: calc(150 * var(--one-unit));
 
     --foreground-primary: black;
-    --foreground-secondary: black;
+    --foreground-secondary: white;
     --foreground-selected-primary: gray;
     --foreground-selected-secondary: white;
 
@@ -32,9 +32,9 @@
 @media all and (prefers-color-scheme: dark) {
     :root {
         --foreground-primary: white;
-        --foreground-secondary: white;
+        --foreground-secondary: black;
         --foreground-selected-primary: #333333;
-        --foreground-selected-secondary: white;
+        --foreground-selected-secondary: black;
     
         --background-primary: black;
         --background-secondary: #333333;
