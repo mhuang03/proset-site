@@ -1,5 +1,3 @@
-const iNoBounce = require("./inobounce");
-
 function addDots(card) {
     let wrapper = document.createElement("div");
     wrapper.className = "proset-dots";
@@ -428,7 +426,6 @@ function initialize() {
     addButtons();
     initializeScore();
     addEventListeners();
-    iNoBounce.enable();
 }
 
 initialize();
