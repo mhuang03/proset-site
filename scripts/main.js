@@ -331,7 +331,9 @@ function resetCards() {
     localStorage.removeItem("deck");
     localStorage.removeItem("currentCards");
     localStorage.removeItem("actionAvailable");
-    location.reload();
+    createDeck();
+    populateCards();
+    hideAboutModal();
 }
 
 function addEventListeners() {
