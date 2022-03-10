@@ -241,8 +241,9 @@ html, body {
 }
 
 .about-close {
+    margin: auto;
+    margin-right: 0;
     color: var(--foreground-primary);
-    float: right;
     cursor: pointer;
     font-size: var(--twenty-four-units);
     padding: var(--five-units) var(--ten-units);

@@ -398,18 +398,8 @@ function initializeScore() {
 }
 
 function iosTouchListeners() {
-    var firstMove;
-
-    document.addEventListener('touchstart', function (e) {
-        firstMove = true;
-    });
-
     document.addEventListener('touchmove', function (e) {
-        if (firstMove) {
-            e.preventDefault();
-
-            firstMove = false;
-        }
+        e.preventDefault();
     });
 }
 
@@ -419,7 +409,7 @@ function initialize() {
     addButtons();
     initializeScore();
     addEventListeners();
-    iosTouchListeners();
+    //iosTouchListeners();
 }
 
 initialize();
