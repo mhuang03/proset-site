@@ -311,7 +311,7 @@ body {
     #flex-break-1 { display: none; }
 }
 
-@media all and (min-aspect-ratio: 2/1) {
+@media all and (min-aspect-ratio: 5/3) {
     :root {
         --one-unit: min(calc(100vw / 950), calc(100vh / 400));
     }
