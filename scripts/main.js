@@ -43,49 +43,38 @@ function newCard(cardid) {
 
 function renderCards(cardids) {
     localStorage.setItem("currentCards", JSON.stringify(cardids));
-    let rows = [
-        document.querySelector("#proset-row-0"),
-        document.querySelector("#proset-row-1"),
-        document.querySelector("#proset-row-2"),
-    ];
-    let counts = [2, 3, 2];
+    let cardWrapper = document.getElementById("proset-cards");
+    let cards = cardWrapper.children;
 
     let changedCards = [];
 
-    for (let r = 0; r < 3; r++) {
-        let row = rows[r];
-        let count = counts[r];
-        let cards = row.children;
-        for (let n = 0; n < count; n++) {
-            let cardid = cardids.shift();
-            let card = newCard(cardid);
-            card.classList.add("eliminated");
-            if (n < cards.length) {
-                if (cards[n].getAttribute("card-id") != cardid) {
-                    cards[n].classList.add("eliminated");
-                    setTimeout(
-                        function (row, card, newCard) {
-                            row.replaceChild(card, newCard);
-                        }.bind(null, row, card, cards[n]),
-                        200
-                    );
-                    changedCards.push(card);
-                }
-            } else {
-                row.appendChild(card);
+    for (let i = 0; i < 7; i++) {
+        let cardid = cardids.shift();
+        let card = newCard(cardid);
+        card.id = "proset-card-" + i;
+        card.classList.add('eliminated');
+        if (i < cards.length) {
+            if (cards[i].getAttribute("card-id") != cardid) {
+                cards[i].classList.add('eliminated');
+                setTimeout(function (cardWrapper, card, newCard) {
+                    cardWrapper.replaceChild(card, newCard);
+                }.bind(null, cardWrapper, card, cards[i]), 200);
                 changedCards.push(card);
             }
+        } else {
+            cardWrapper.appendChild(card);
+            changedCards.push(card);
+        }
 
-            if (
-                typeof cardid == "undefined" ||
-                cardid == "undefined" ||
-                cardid == "null" ||
-                cardid === null
-            ) {
-                card.style.visibility = "hidden";
-            } else {
-                addDots(card);
-            }
+        if (
+            typeof cardid == "undefined" ||
+            cardid == "undefined" ||
+            cardid == "null" ||
+            cardid === null
+        ) {
+            card.style.visibility = "hidden";
+        } else {
+            addDots(card);
         }
     }
 
@@ -98,6 +87,15 @@ function renderCards(cardids) {
         }.bind(null, changedCards),
         400
     );
+}
+
+function addFlexBreaks() {
+    let cardWrapper = document.getElementById("proset-cards");
+    for (let i = 0; i < 2; i++) {
+        let hr = document.createElement('hr');
+        hr.id = 'flex-break-' + i;
+        cardWrapper.appendChild(hr);
+    }
 }
 
 function getAllCards() {
@@ -248,7 +246,6 @@ function populateCards() {
     }
     renderCards(cards);
     localStorage.setItem("deck", JSON.stringify(deck));
-    localStorage.setItem("actionAvailable", "true");
 }
 
 function replaceSelected() {
@@ -415,6 +412,8 @@ function addButtons() {
             this
         );
     });
+    
+    localStorage.setItem("actionAvailable", "true");
 }
 
 function displayAboutModal() {
@@ -446,6 +445,7 @@ function iosTouchListeners() {
 function initialize() {
     createDeck();
     populateCards();
+    addFlexBreaks();
     addButtons();
     initializeScore();
     addEventListeners();

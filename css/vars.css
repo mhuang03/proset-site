@@ -1,16 +1,20 @@
 :root {
-    --one-unit: min(calc(100vw / 400), calc(100vh / 750), 1px);
+    --one-unit: min(calc(100vw / 450), calc(100vh / 750));
     --two-units: calc(2 * var(--one-unit));
     --five-units: calc(5 * var(--one-unit));
     --ten-units: calc(10 * var(--one-unit));
     --fifteen-units: calc(15 * var(--one-unit));
+    --sixteen-units: calc(16 * var(--one-unit));
     --twenty-units: calc(20 * var(--one-unit));
     --twenty-four-units: calc(24 * var(--one-unit));
     --twenty-five-units: calc(25 * var(--one-unit));
+    --thirty-units: calc(30 * var(--one-unit));
+    --thirty-two-units: calc(32 * var(--one-unit));
     --forty-units: calc(40 * var(--one-unit));
     --sixty-units: calc(60 * var(--one-unit));
     --one-hundred-units: calc(100 * var(--one-unit));
     --one-hundred-fifty-units: calc(150 * var(--one-unit));
+    --three-hundred-units: calc(300 * var(--one-unit));
 
     --foreground-primary: black;
     --foreground-secondary: white;
